@@ -6,12 +6,12 @@
       <v-card-subtitle>
         <v-form @submit.prevent="login">
            <v-text-field 
-            v-model="login_form.email"   
+            v-model="email"   
             label="Email"
             name="email"            
            ></v-text-field>
            <v-text-field
-            v-model="login_form.password"
+            v-model="password"
             label="Password"
             name="password"            
             
@@ -26,17 +26,26 @@
 
 </template>
 <script>
+import { getAuth,createUserWithEmailAndPassword,onAuthStateChanged,updateProfile, signInWithEmailAndPassword } from '@firebase/auth';
 import { ref } from 'vue'
 export default{
     setup() {
-        const login_form = ref({});
-        
-        const login = () => {
-			console.log('login', login_form.value);
+      const auth = getAuth();
+      const email= ref([]);
+      const password= ref([]);
+      const login = () => {
+			  console.log('login', email.value, password.value);
+        signInWithEmailAndPassword(auth,email.value,password.value)
+        .then((result)=>{
+                alert("Login success. !!!")
+                }).catch((error)=>{
+                alert(error.message)
+                })
+                
 		}
-        
         return{
-            login_form,
+            email,
+            password,
             login
         }
     }

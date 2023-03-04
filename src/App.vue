@@ -3,12 +3,13 @@
     
 
   <body>
-    <div style="flex-basis: 40%; display: flex; align-items: center; justify-content: center;">
+    <div style="flex-basis: 50%; display: flex; align-items: center; justify-content: center;" id="view">
       <router-view></router-view>
     </div>
+  
     
 
-    <div class="card" style="flex-basis: 60%; opacity: 90%;">
+    <div class="card" style="flex-basis: 50%; opacity: 90%;">
       <v-table>
         <thead>
           <tr>
@@ -22,16 +23,12 @@
     </div>
     
   </body>
-
-
-
 </v-app>
-
 </template>
 
-<script setup>
- 
-  
+<script>
+
+
 </script>
 
 <style scoped>

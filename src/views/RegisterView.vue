@@ -5,22 +5,22 @@
          </v-card-title>
          <v-card-subtitle>
             <v-form @submit.prevent="register">
-            <v-text-field 
-            v-model="register_form.username"   
-            label="Username"
-            name="username"            
-           ></v-text-field>
            <v-text-field 
-            v-model="register_form.email"   
+            v-model="email"   
             label="Email"
             name="email"            
            ></v-text-field>
            <v-text-field
-            v-model="register_form.password"
+            v-model="password"
             label="Password"
-            name="password"            
-            
+            name="password"             
            ></v-text-field>
+           <v-text-field
+            v-model="Cpassword"
+            label="Confirm Password"
+            name="Cpassword"             
+           ></v-text-field>
+           
                 <v-btn type="submit" block class="mt-2"  >REGISTER</v-btn>
                 <router-link to="/">go to login</router-link>
             
@@ -32,26 +32,35 @@
 </template>
 <script >
 import { getAuth,createUserWithEmailAndPassword,onAuthStateChanged,updateProfile } from '@firebase/auth';
-
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router';
 export default{
     setup() {
         const auth = getAuth();
-        const register_form = ref([]);
-        const email = register_form.email;
-        const password = register_form.password;
+        const email = ref([]);
+        const password = ref([]);
+        const Cpassword = ref([]);
         const register = () => {
-			console.log('register', register_form.value);
-            createUserWithEmailAndPassword(auth,email,password)
-            .then((result)=>{
-                alert("สร้างเรียบร้อย")
-            }).catch((error)=>{
+			console.log('register', email.value , password.value , Cpassword.value);
+
+
+            if (password.value != Cpassword.value) {
+                alert("Password is not matched. please try again!!!")
+                
+            } else {
+                createUserWithEmailAndPassword(auth,email.value,password.value)
+                .then((result)=>{
+                alert("Register success. !!!")
+                
+                }).catch((error)=>{
                 alert(error.message)
-            })
+                })
+            }
 		}
-        
         return{
-            register_form,
+            password,
+            Cpassword,
+            email,
             register
         }
     }
