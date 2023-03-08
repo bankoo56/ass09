@@ -1,34 +1,71 @@
 <template>  
 <v-app>
-    
-
   <body>
-    <div style="flex-basis: 50%; display: flex; align-items: center; justify-content: center;" id="view">
       <router-view></router-view>
-    </div>
-  
-    
-
-    <div class="card" style="flex-basis: 50%; opacity: 90%;">
-      <v-table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Password</th>
-          </tr>
-        </thead>
-
-      </v-table>
-    </div>
-    
   </body>
+
 </v-app>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+import { db } from './Firebase'
+import { routerViewLocationKey } from 'vue-router';
+const menu = ref({
+  name: '',
+  price: 0,
+  recipe: ''
+})
+const editText = ref([])
+const list = ref([])
+const dialog = ref(false)
 
 
+async function show() {
+  const querySnapshot = await getDocs(collection(db, 'Food'))
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id, ' => ', doc.data())
+    const myDoc = ref({ id: doc.id, data: doc.data() })
+    list.value.push(myDoc.value)
+  })
+}
+function editMenu(menulist) {
+  editText.value = menulist
+  menu.value = menulist.data
+}
+async function updateMenu(id) {
+  if (confirm('ยืนยันการแก้ไข ?')) {
+    try {
+      const washingtonRef = doc(db, 'Food', id)
+      await updateDoc(washingtonRef, menu.value)
+      console.log('update..')
+    } catch (e) {
+      console.error(e)
+    }
+    readUpdateMenu(id)
+  }
+}
+async function readUpdateMenu(id) {
+  const docRef = doc(db, 'Food', id)
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists(id)) {
+    console.log(id, docSnap.data())
+    const newEdit = docSnap.data()
+    editText.value = newEdit
+  } else {
+  }
+}
+function cancelUpdate() {
+  editText.value = null
+}
+async function deleteMenu(id, index) {
+  if (confirm('ลบรายการ ?')) {
+    await deleteDoc(doc(db, 'Food', id))
+    console.log('Delete document with ID:', id)
+    list.value.splice(index, 1)
+  }
+}
 </script>
 
 <style scoped>
