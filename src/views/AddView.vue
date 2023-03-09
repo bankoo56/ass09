@@ -91,13 +91,13 @@ const menu = ref({
     recipe: ''
 })
 const list = ref([])
+const editText = ref([])
 
 async function add() {
     try {
         const docRef = await addDoc(collection(db, 'Food'), menu.value)
         console.log('Document ID: ', docRef.id)
         alert('เพิ่มรายการเสร็จสิ้น')
-        window.location.reload();
     } catch (e) {
         console.error('Error: ', e)
     }

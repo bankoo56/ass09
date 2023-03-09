@@ -1,6 +1,6 @@
 <template>
   <div>
- <v-card elevation="3" style=" padding: 3rem; width: 450px; height: 500px; " image="https://static.vecteezy.com/system/resources/previews/002/375/040/original/modern-white-background-free-vector.jpg">
+ <v-card elevation="3" style=" padding: 3rem; width: 450px; height: 500px; margin-top: 50%;" image="https://static.vecteezy.com/system/resources/previews/002/375/040/original/modern-white-background-free-vector.jpg">
       <v-card-title class="text-h5 text-center">
         <v-icon size="100px">mdi-shield-lock-open-outline</v-icon>
       </v-card-title>
